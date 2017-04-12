@@ -4,6 +4,7 @@
 #include <cstring>
 #include <iostream>
 #include <initializer_list>
+#include <algorithm>
 
 #pragma warning(disable: 4996)
 
