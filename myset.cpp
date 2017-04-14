@@ -5,9 +5,6 @@ int main(int argc, char *argv[]) {
     myset test1;
     myset test2;
     test2 = test1;
-    test1.insert(2);
-
-    std::cout << test1.data[0];
 //    myset1.insert(21);
 //    std::cout << myset1.isElement(2) << std::endl;
 //    std::cout << myset1.capacity() << std::endl;

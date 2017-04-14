@@ -20,6 +20,7 @@ public:
         data = new int [MIN_CAPACITY];
     }
     ~myset() {
+        std::cout << "deleted";
         delete[] data;
     }
 
