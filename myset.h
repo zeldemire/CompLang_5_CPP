@@ -25,17 +25,23 @@ public:
 
     // copy constructor
     myset(const myset &other) {
+        std::cout << "copy";
         std::copy(other.data, other.data + other.size(), data);
     }
 
     // Assignment operator
-    myset &operator = (myset &other) {
-        std::swap(this->data, other.data);
+    myset &operator = (const myset &other) {
+        std::cout << "Assignment";
+        if (this != &other) {
+            myset(other).swap(*this);
+        }
+//        std::swap(this->data, other.data);
         return *this;
     }
 
     // move constructor
     myset(myset &&other) {
+        std::cout << "Move";
         data = other.data;
 
         other.data = nullptr;
@@ -43,15 +49,20 @@ public:
 
     // move assignment constructor
     myset &operator = (myset &&other) 	{
+        std::cout << "Move assignment";
         if (this != &other) {
             delete[] data;
             data = other.data;
             other.data = nullptr;
         }
-
         return *this;
     }
 
+    void swap(myset &other) throw() {
+        std::swap(this->data, other.data);
+        std::swap(this->sizeOfArray, other.sizeOfArray);
+        std::swap(this->currentSizeOfArray, other.currentSizeOfArray);
+    }
     // returns the number of elements in the set.
     int size() const {
         return this->sizeOfArray;
@@ -82,6 +93,8 @@ public:
             }
             this->sizeOfArray++;
             return true;
+        } else if (size() >= MIN_CAPACITY) {
+            std::cout << "Here";
         }
         return false;
     }
@@ -109,6 +122,8 @@ public:
 
 private:
     int sizeOfArray = 0;
+
+    int currentSizeOfArray = MIN_CAPACITY;
 };
 
 #endif
