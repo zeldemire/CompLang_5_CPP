@@ -59,13 +59,14 @@ public:
     }
 
     void swap(myset &other) throw() {
-        std::swap(this->data, other.data);
-        std::swap(this->sizeOfArray, other.sizeOfArray);
-        std::swap(this->currentSizeOfArray, other.currentSizeOfArray);
+        std::swap(data, other.data);
+        std::swap(sizeOfArray, other.sizeOfArray);
+        std::swap(currentSizeOfArray, other.currentSizeOfArray);
     }
+
     // returns the number of elements in the set.
     int size() const {
-        return this->sizeOfArray;
+        return sizeOfArray;
     }
 
     // Returns the current size of the array.
@@ -77,24 +78,42 @@ public:
     // was successfully removed.
     bool remove(int value) {
         if (isElement(value) == 1) {
-            std::remove_copy(this->data, this->data + this->size(), this->data, value);
-            this->sizeOfArray--;
+            std::remove_copy(data, data + size(), data, value);
+            sizeOfArray--;
             return true;
         }
         return false;
     }
 
-    // Adds a value to the set. Return true iff the element
+    void resizeAndInsert(const int value) {
+        int newArraySize = size() + (size() / 2);
+        int *tmpArray = new int[size()];
+
+        std::copy(data, data + size(), tmpArray);
+
+        delete[] data;
+        data = nullptr;
+
+        data = new int[newArraySize];
+
+        std::copy(tmpArray, tmpArray + size(), data);
+
+        data[sizeOfArray] = value;
+
+    }
+
+// Adds a value to the set. Return true iff the element
     // was successfully added.
     bool insert(int value) {
         if (size() < MIN_CAPACITY) {
-            for (int i = this->size(); i <= this->size(); ++i) {
-                this->data[i] = value;
+            for (int i = size(); i <= size(); ++i) {
+                data[i] = value;
             }
-            this->sizeOfArray++;
+            sizeOfArray++;
             return true;
         } else if (size() >= MIN_CAPACITY) {
-            std::cout << "Here";
+            resizeAndInsert(value);
+            sizeOfArray++;
         }
         return false;
     }
