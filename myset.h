@@ -24,44 +24,60 @@ public:
     }
 
     // copy constructor
-    myset(const myset &other) {
-        std::cout << "copy";
+    myset(const myset &other) : myset() {
         std::copy(other.data, other.data + other.size(), data);
+        sizeOfArray = other.sizeOfArray;
+        currentSizeOfArray = other.currentSizeOfArray;
     }
 
     // Assignment operator
     myset &operator = (const myset &other) {
-        std::cout << "Assignment";
         if (this != &other) {
-            myset(other).swap(*this);
+            delete[] data;
+
+            data = new int[other.size()];
+            sizeOfArray = other.sizeOfArray;
+            currentSizeOfArray = other.currentSizeOfArray;
+
+            std::copy(other.data, other.data + other.sizeOfArray, data);
         }
-//        std::swap(this->data, other.data);
+
         return *this;
     }
 
     // move constructor
     myset(myset &&other) {
-        std::cout << "Move";
         data = other.data;
+        sizeOfArray = other.sizeOfArray;
+        currentSizeOfArray = other.currentSizeOfArray;
 
         other.data = nullptr;
+        other.currentSizeOfArray = 0;
+        other.sizeOfArray = 0;
     }
 
     // move assignment constructor
     myset &operator = (myset &&other) 	{
         std::cout << "Move assignment";
         if (this != &other) {
+
+            // Erase *this data
             delete[] data;
+            data = nullptr;
+            sizeOfArray = 0;
+            currentSizeOfArray = 0;
+
+            // Set data from other
             data = other.data;
+            sizeOfArray = other.sizeOfArray;
+            currentSizeOfArray = other.currentSizeOfArray;
+
+            // Reset other data
+            other.sizeOfArray = 0;
+            other.currentSizeOfArray = 0;
             other.data = nullptr;
         }
         return *this;
-    }
-
-    void swap(myset &other) throw() {
-        std::swap(data, other.data);
-        std::swap(sizeOfArray, other.sizeOfArray);
-        std::swap(currentSizeOfArray, other.currentSizeOfArray);
     }
 
     // returns the number of elements in the set.
@@ -71,7 +87,7 @@ public:
 
     // Returns the current size of the array.
     int capacity() const {
-        return sizeof(int) * size();
+        return sizeof(int) * currentSizeOfArray;
     }
 
     // Removes a value to the set. Return true iff the element
@@ -86,7 +102,7 @@ public:
     }
 
     void resizeAndInsert(const int value) {
-        int newArraySize = size() + (size() / 2);
+        currentSizeOfArray = size() + (size() / 2);
         int *tmpArray = new int[size()];
 
         std::copy(data, data + size(), tmpArray);
@@ -94,7 +110,7 @@ public:
         delete[] data;
         data = nullptr;
 
-        data = new int[newArraySize];
+        data = new int[currentSizeOfArray];
 
         std::copy(tmpArray, tmpArray + size(), data);
 
