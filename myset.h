@@ -24,7 +24,8 @@ public:
     }
 
     // copy constructor
-    myset(const myset &other) : myset() {
+    myset(const myset &other) {
+        data = new int[other.size()];
         std::copy(other.data, other.data + other.size(), data);
         sizeOfArray = other.sizeOfArray;
         currentSizeOfArray = other.currentSizeOfArray;
@@ -51,19 +52,18 @@ public:
         sizeOfArray = other.sizeOfArray;
         currentSizeOfArray = other.currentSizeOfArray;
 
-        other.data = nullptr;
+        other.data = NULL;
         other.currentSizeOfArray = 0;
         other.sizeOfArray = 0;
     }
 
     // move assignment constructor
     myset &operator = (myset &&other) 	{
-        std::cout << "Move assignment";
         if (this != &other) {
 
             // Erase *this data
             delete[] data;
-            data = nullptr;
+            data = NULL;
             sizeOfArray = 0;
             currentSizeOfArray = 0;
 
@@ -108,7 +108,7 @@ public:
         std::copy(data, data + size(), tmpArray);
 
         delete[] data;
-        data = nullptr;
+        data = NULL;
 
         data = new int[currentSizeOfArray];
 
@@ -116,6 +116,8 @@ public:
 
         data[sizeOfArray] = value;
 
+        delete[] tmpArray;
+        tmpArray = NULL;
     }
 
 // Adds a value to the set. Return true iff the element
@@ -130,6 +132,7 @@ public:
         } else if (size() >= MIN_CAPACITY) {
             resizeAndInsert(value);
             sizeOfArray++;
+            return true;
         }
         return false;
     }
@@ -138,22 +141,6 @@ public:
     bool isElement(int value) const {
         return std::find(this->data, this->data + this->size(), value) != this->data + this->size();
     }
-
-    // Returns an array containing the elements in the set.
-    // This array is dynamically allocated an must be deleted by
-    // the caller.
-    int *getValues(int &sz) const {
-        sz = 5;
-        int *result = new int[sz];
-        result[0] = 5;
-        result[1] = 15;
-        result[2] = 20;
-        result[3] = 30;
-        result[4] = 40;
-        return result;
-    }
-
-
 
 private:
     int sizeOfArray = 0;

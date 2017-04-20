@@ -3,25 +3,6 @@
 
 int main(int argc, char *argv[]) {
 
-//    int *a = new int[4];
-//    a[0] = 4;
-//    a[1] = 1;
-//    a[2] = 2;
-//    a[3] = 3;
-//
-//    int b[4];
-//
-//    std::copy(a, a + 4, std::begin(b));
-//
-//    delete[] a;
-//    a = nullptr;
-//
-//    a = new int[6];
-//
-//    std::copy(std::begin(b), std::end(b), a);
-//    for (int i = 0; i < 5; ++i) {
-//        std::cout << a[i] << std::endl;
-//    }
     myset test1;
     test1.insert(0);
     test1.insert(1);
@@ -36,40 +17,28 @@ int main(int argc, char *argv[]) {
     test1.insert(10);
     myset test2(test1);
 
+    std::cout << "TEST 1" << std::endl;
+    for (size_t i = 0; i < test1.size(); i++) {
+        std::cout << test1.data[i];
+    }
+
+    std::cout << std::endl;
+
+    myset test3 = test2;
     test2.remove(0);
     test2.remove(4);
-    myset test3 = test2;
 
 
-    std::cout << test1.capacity() << std::endl;
-    std::cout << sizeof(int) << std::endl;
-
-//    for (int i = 0; i < test1.size(); ++i) {
-//
-//        std::cout << test1.data[i] << std::endl;
-//    }
-//
-//    std::cout << std::endl;
-//    std::cout << test1.size() << std::endl;
-//    std::cout << std::endl;
-//    test1.remove(9);
-//
-//    for (int i = 0; i < test1.size(); ++i) {
-//
-//        std::cout << test1.data[i] << std::endl;
-//    }
-//    std::cout << std::endl;
-//    std::cout << test1.size() << std::endl;
-//
-//
-//    test1.insert(100);
-//
-//    for (int i = 0; i < test1.size(); ++i) {
-//
-//        std::cout << test1.data[i] << std::endl;
-//    }
-//    std::cout << std::endl;
-//    std::cout << test1.size() << std::endl;
-
-    int a = 0;
+    std::cout << "TEST 2" << std::endl;
+    for (size_t i = 0; i < test2.size(); i++) {
+        std::cout << test2.data[i];
+    }
+    std::cout << std::endl;
+    std::cout << "TEST 3" << std::endl;
+    test3.insert(55);
+    for (size_t i = 0; i < test3.size(); i++) {
+        std::cout << test3.data[i];
+    }
+    std::cout << std::endl;
+    return 0;
 }
